@@ -38,8 +38,9 @@
           <span id="apiCalls" style="display:none;">
             Some Google+ API-Calls to try:  
             <a href="#" onclick="gAPI('/people/me');">/people/me</a>&nbsp;|&nbsp;
-            <a href="#" onclick="gAPI('/people/me/people/visible');">/people/me/people/visible</a>&nbsp;|&nbsp;
-            
+            <a href="#" onclick="gAPI('/userinfo');">/people/me?fields=email</a>&nbsp;|&nbsp;
+            <a href="#" onclick="gAPI('/people/me/people/visible');">/people/me/people/visible</a>&nbsp;|&nbsp;            
+            <a href="#" onclick="gLogout()"><small>Logout</small></a>
           </span>
 
           <div id="result-container" style="background-color:#e0e0e0;padding:10px;margin-top:15px;">
@@ -86,6 +87,24 @@
       console.log(result);
       $('#result').html(print_r(result));
     }})
+  }
+
+  function gLogout() {
+    token = gapi.auth.getToken();
+    var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token='+token.access_token;
+    $.ajax({
+      type: 'GET',
+      url: revokeUrl,
+      async: false,
+      contentType: "application/json",
+      dataType: 'jsonp',
+      success: function() {
+        location.reload();  
+      },
+      error: function(e) {
+        
+      }
+    });
   }
   
   function print_r(o){
