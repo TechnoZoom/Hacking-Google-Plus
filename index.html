@@ -39,8 +39,9 @@
             Some Google+ API-Calls to try:  
             <a href="#" onclick="gAPI('/people/me');">/people/me</a>&nbsp;|&nbsp;
             <a href="#" onclick="gAPI('/userinfo');">/people/me?fields=email</a>&nbsp;|&nbsp;
+            <a href="#" onclick="gAPI('/people/112458569190302976633');">/people/112458569190302976633</a>&nbsp;|&nbsp;            
             <a href="#" onclick="gAPI('/people/me/people/visible');">/people/me/people/visible</a>&nbsp;|&nbsp;            
-            <a href="#" onclick="gLogout()"><small>Logout</small></a>
+            <a href="#" onclick="gDisconnect()"><small>Uninstall</small></a>
           </span>
 
           <div id="result-container" style="background-color:#e0e0e0;padding:10px;margin-top:15px;">
@@ -61,6 +62,7 @@
   })();
   
   function signinCallback(authResult) {
+
     console.log(authResult);
     if (authResult['access_token']) {
       // User successfully authorized the G+ App!
@@ -80,7 +82,9 @@
     }
   } 
 
+  // Wrapper function for Goolge+ API requests
   function gAPI (url) {
+
     $('#result').html('');
     gapi.client.request({path:'/plus/v1'+url, method:'GET', callback: function(result) {
       // Let's dump this to console & DOM:
@@ -89,7 +93,9 @@
     }})
   }
 
-  function gLogout() {
+  // This function disconnects / uninstalls the app for the current user
+  function gDisconnect() {
+
     token = gapi.auth.getToken();
     var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token='+token.access_token;
     $.ajax({
@@ -106,7 +112,8 @@
       }
     });
   }
-  
+
+  // Helper function to debug JSON objects
   function print_r(o){
     return JSON.stringify(o,null,'\t').replace(/\n/g,'<br>').replace(/\t/g,'&nbsp;&nbsp;&nbsp;'); 
   }      
