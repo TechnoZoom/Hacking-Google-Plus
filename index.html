@@ -21,33 +21,47 @@
              Read our <a href=" http://garage.socialisten.at/2013/02/hacking-google…sign-in-button">blog-post to learn how it's done!</a></p>
         </div>
 
-        <section>
-          <!-- Place this tag where you want the sign-in button to render -->
-          <span id="signinButton" style="display:none;">
-            <span
-              class="g-signin"
-              data-callback="signinCallback"
-              data-clientid="582679366292.apps.googleusercontent.com"
-              data-cookiepolicy="single_host_origin"
-              data-requestvisibleactions="http://schemas.google.com/AddActivity"
-              data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
-              data-width="wide">
-            </span>
-          </span>
+        <div class="row-fluid">
+          <div class="span6 well">
+            <section>
+              <!-- Place this tag where you want the sign-in button to render -->
+              <span id="signinButton" style="display:none;">
+                <span
+                  class="g-signin"
+                  data-callback="signinCallback"
+                  data-clientid="582679366292.apps.googleusercontent.com"
+                  data-cookiepolicy="single_host_origin"
+                  data-requestvisibleactions="http://schemas.google.com/AddActivity"
+                  data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
+                  data-width="wide">
+                </span>
+              </span>
 
-          <span id="apiCalls" style="display:none;">
-            Some Google+ API-Calls to try:  
-            <a href="#" onclick="gAPI('/people/me');">/people/me</a>&nbsp;|&nbsp;
-            <a href="#" onclick="gAPI('/people/me/people/visible');">/people/me/people/visible</a>&nbsp;|&nbsp;            
-            <a href="#" onclick="gDisconnect()"><small>Uninstall</small></a>
-          </span>
+              <span id="apiCalls" style="display:none;">
+                Some Google+ API-Calls to try:  
+                <a href="#" onclick="gAPI('/people/me');">/people/me</a>&nbsp;|&nbsp;
+                <a href="#" onclick="gAPI('/people/me/people/visible');">/people/me/people/visible</a>&nbsp;|&nbsp;            
+                <a href="#" onclick="gDisconnect()"><small>Uninstall</small></a>
+              </span>
 
-          <div id="result-container" style="background-color:#e0e0e0;padding:10px;margin-top:15px;">
-            <p><strong>Output:</strong></p>
-            <pre id="result"></div>
+              <div id="result-container" style="background-color:#e0e0e0;padding:10px;margin-top:15px;">
+                <p><strong>Output:</strong></p>
+                <pre id="result"></pre>
+              </div>
+              
+            </section>
           </div>
-          
-        </section>
+
+          <div class="span6 well" id="friendlist_container" style="display:none;">
+            <section>
+              <div id="friendlist">
+
+              </div>
+            </section>
+          </div>
+
+        </div>
+
       </div>
     </div>
 
@@ -58,6 +72,8 @@
     po.src = 'https://apis.google.com/js/client:plusone.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
+
+  var gFriends = null;
   
   function signinCallback(authResult) {
 
@@ -67,9 +83,11 @@
       // Hiding the Sign In-button (& showing API-Demo-Calls), since we are authorized...
       $('#signinButton').hide();              
       $('#apiCalls').show();              
+      $('#friendlist_container').show();
 
       // Now we use a simple G+ API request /people/me to get info on the current user
       gAPI ('/people/me');
+      gPopulateFriendlist();
 
     } else if (authResult['error']) {
       // User has not authorized the G+ App!
@@ -77,17 +95,20 @@
       // Showing the Sign In-button (& hiding API-Demo-Calls), since we are authorized...
       $('#signinButton').show();
       $('#apiCalls').hide();              
+      $('#friendlist_container').hide();
     }
   } 
 
   // Wrapper function for Goolge+ API requests
-  function gAPI (url) {
+  function gAPI (url, callback) {
 
     $('#result').html('');
     gapi.client.request({path:'/plus/v1'+url, method:'GET', callback: function(result) {
-      // Let's dump this to console & DOM:
-      console.log(result);
+      // Let's dump this to DOM:      
       $('#result').html(print_r(result));
+      if (callback) {
+        callback(result);
+      }
     }})
   }
 
@@ -107,6 +128,33 @@
       },
       error: function(e) {
         
+      }
+    });
+  }
+
+  // Populate the Friendlist
+  function gPopulateFriendlist(friends, token) {
+    if (!token || !friends) {
+      ul = $('<ul class="friendlist"></ul>');
+      $('#friendlist').html('<p>Your Friends on Google+:</p>');
+      $('#friendlist').append(ul);
+      friends = [];
+      token = '';
+    }
+
+    gAPI('/people/me/people/visible?pageToken='+token, function(result) {      
+      if (result.items) {
+        friends = friends.concat(result.items);
+        $.each(result.items, function(index, friend) {
+          li = $('<li data-id="'+friend.id+'"><img src="'+friend.image.url+'"/>'+friend.displayName+'</li>');
+          $('#friendlist ul').append(li);
+        });
+      }
+      if (result.nextPageToken) {
+        return gPopulateFriendlist(friends, result.nextPageToken);
+      } else {
+        $('#friendlist p').html('<p><strong>'+friends.length+'</strong> Friends on Google+:</p>');
+        return friends;
       }
     });
   }
