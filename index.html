@@ -146,7 +146,7 @@
       if (result.items) {
         friends = friends.concat(result.items);
         $.each(result.items, function(index, friend) {
-          li = $('<li data-id="'+friend.id+'"><img src="'+friend.image.url+'"/>'+friend.displayName+'</li>');
+          li = $('<li onclick="alert(\'You have selected '+friend.displayName+' (ID: '+friend.id+')\'); return false;" data-id="'+friend.id+'"><img src="'+friend.image.url+'"/>'+friend.displayName+'</li>');
           $('#friendlist ul').append(li);
         });
       }
