@@ -13,6 +13,12 @@ ul.friendlist {
 	padding:0px;
 }
 
+#friendlist p {
+	padding:0px 0px 0px 25px;
+	background-image: url(../img/plus-icon.png);
+	background-repeat:no-repeat;
+}
+
 ul.friendlist li {
 	margin: 0px;
 	padding: 5px;

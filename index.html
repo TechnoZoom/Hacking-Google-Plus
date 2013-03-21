@@ -153,7 +153,7 @@
       if (result.nextPageToken) {
         return gPopulateFriendlist(friends, result.nextPageToken);
       } else {
-        $('#friendlist p').html('<p><strong>'+friends.length+'</strong> Friends on Google+:</p>');
+        $('#friendlist p').html('<strong>'+friends.length+'</strong> Friends on Google+:');
         return friends;
       }
     });
