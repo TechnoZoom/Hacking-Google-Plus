@@ -34,3 +34,21 @@ ul.friendlist li img { 
 	height:20px;
 	margin: 0px 10px 0px 0px;
 }
+
+#result-container {
+	height: 500px;
+	max-height: 500px;
+}
+
+#result {
+	height: 450px;
+	overflow: scroll;
+}
+
+.hero-unit  {
+	padding: 20px 60px 20px 60px;
+}
+.hero-unit ul li {
+	font-size:12px;
+	line-height:16px;
+}

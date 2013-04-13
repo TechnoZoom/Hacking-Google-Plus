@@ -10,6 +10,13 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />    
     <link rel="stylesheet" type="text/css" href="css/main.css" />    
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+    <html itemscope itemtype="http://schema.org/Article">
+    <meta itemprop="name" content="Hacking Google+">
+    <meta itemprop="description" content="Follow us learning how to use the Google+-APIs - Step by Step!!">
+    <meta itemprop="image" content="https://dev.diesocialisten.at/google+/img/logo.png">
+    <meta property="og:image" content="https://dev.diesocialisten.at/google+/img/logo.png">
+
   </head>
   <body>
     <div id="app">
@@ -18,7 +25,12 @@
           <h1>Hacking Google+</h1>
           <p><br/>Follow us learning how to use the Google+-APIs - Step by Step!<br/>
              A tutorial by <a href="http://fb.com/diesocialisten">Die Socialisten</a>, 
-             Read our <a href=" http://garage.socialisten.at/2013/02/hacking-google…sign-in-button">blog-post to learn how it's done!</a></p>
+             Read our blog-posts to learn how it's done!</a></p>
+             <ul>
+              <li><a href="http://garage.socialisten.at/2013/03/hacking-google-plus-the-sign-in-button/">Hacking Google+ Part 1: The Sign-In Button</a></li>
+              <li><a href="http://garage.socialisten.at/2013/03/hacking-google-part-2-building-a-friend-selector/">Hacking Google+ Part 2: Building a Friend Selector</a></li>
+              <li><a href="http://garage.socialisten.at/2013/04/hacking-google-part-3-interactive-posts/">Hacking Google+ Part 3: Interactive Posts</a></li>
+             </ul>
         </div>
 
         <div class="row-fluid">
@@ -39,8 +51,8 @@
 
               <span id="apiCalls" style="display:none;">
                 Some Google+ API-Calls to try:  
-                <a href="#" onclick="gAPI('/people/me');">/people/me</a>&nbsp;|&nbsp;
-                <a href="#" onclick="gAPI('/people/me/people/visible');">/people/me/people/visible</a>&nbsp;|&nbsp;            
+                <a href="#" onclick="gAPI('/people/me', null, true);">/people/me</a>&nbsp;|&nbsp;
+                <a href="#" onclick="gAPI('/people/me/people/visible', null, true);">/people/me/people/visible</a>&nbsp;|&nbsp;            
                 <a href="#" onclick="gDisconnect()"><small>Uninstall</small></a>
               </span>
 
@@ -53,10 +65,27 @@
           </div>
 
           <div class="span6 well" id="friendlist_container" style="display:none;">
+            <h2>1. Select a friend</h2>
             <section>
               <div id="friendlist">
 
               </div>
+            </section>
+          </div>
+
+          <div class="span6 well">
+            <h2>2. Post!</h2>
+            <section>
+              <button
+                class="g-interactivepost"
+                data-contenturl="https://dev.diesocialisten.at/google+/?v=5"
+                data-clientid="582679366292.apps.googleusercontent.com"
+                data-cookiepolicy="single_host_origin"
+                data-prefilltext="Developers, you should check this out!"
+                data-calltoactionlabel="OPEN"
+                data-calltoactionurl="https://dev.diesocialisten.at/google+">
+                Share this Tutorial!
+              </button>
             </section>
           </div>
 
@@ -86,7 +115,7 @@
       $('#friendlist_container').show();
 
       // Now we use a simple G+ API request /people/me to get info on the current user
-      gAPI ('/people/me');
+      gAPI ('/people/me', null, true);
       gPopulateFriendlist();
 
     } else if (authResult['error']) {
@@ -100,12 +129,14 @@
   } 
 
   // Wrapper function for Goolge+ API requests
-  function gAPI (url, callback) {
+  function gAPI (url, callback, debug) {
 
-    $('#result').html('');
+    if (debug)
+      $('#result').html('');
     gapi.client.request({path:'/plus/v1'+url, method:'GET', callback: function(result) {
       // Let's dump this to DOM:      
-      $('#result').html(print_r(result));
+      if (debug)
+        $('#result').html(print_r(result));
       if (callback) {
         callback(result);
       }
@@ -148,7 +179,7 @@
         $.each(result.items, function(index, friend) {
           li = $('<li onclick="alert(\'You have selected '+friend.displayName+' (ID: '+friend.id+')\'); return false;" data-id="'+friend.id+'"><img src="'+friend.image.url+'"/>'+friend.displayName+'</li>');
           $('#friendlist ul').append(li);
-        });
+        }, false);
       }
       if (result.nextPageToken) {
         return gPopulateFriendlist(friends, result.nextPageToken);
