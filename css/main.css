@@ -29,6 +29,10 @@ ul.friendlist li {
 ul.friendlist li:hover {
 	background-color: #e0e0e0;
 }
+
+ul.friendlist li.selected {
+	background-color: #808080;
+}
 ul.friendlist li img { 
 	width:20px;
 	height:20px;

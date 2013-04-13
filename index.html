@@ -76,13 +76,13 @@
           <div class="span6 well">
             <h2>2. Post!</h2>
             <section>
-              <button
+              <button id="share-button"
                 class="g-interactivepost"
                 data-contenturl="https://dev.diesocialisten.at/google+/?v=5"
                 data-clientid="582679366292.apps.googleusercontent.com"
                 data-cookiepolicy="single_host_origin"
                 data-prefilltext="Developers, you should check this out!"
-                data-calltoactionlabel="OPEN"
+                data-calltoactionlabel="LEARN_MORE"
                 data-calltoactionurl="https://dev.diesocialisten.at/google+">
                 Share this Tutorial!
               </button>
@@ -163,6 +163,23 @@
     });
   }
 
+  // Render the share button and target it to the selected Friends
+  function gRenderShare(friend_id) {
+
+    var options = {
+      contenturl: 'https://dev.diesocialisten.at/google+/?v=5',
+      clientid: '582679366292.apps.googleusercontent.com',
+      cookiepolicy: 'single_host_origin',
+      prefilltext: 'Developers, you should check this out!',
+      recipients: friend_id.toString(),
+      calltoactionlabel: 'LEARN_MORE',
+      calltoactionurl: 'https://dev.diesocialisten.at/google+/?v=5'
+    };
+    // Call the render method when appropriate within your app to display the button.
+    console.log(options);
+    gapi.interactivepost.render('share-button', options);
+  }
+
   // Populate the Friendlist
   function gPopulateFriendlist(friends, token) {
     if (!token || !friends) {
@@ -177,7 +194,7 @@
       if (result.items) {
         friends = friends.concat(result.items);
         $.each(result.items, function(index, friend) {
-          li = $('<li onclick="alert(\'You have selected '+friend.displayName+' (ID: '+friend.id+')\'); return false;" data-id="'+friend.id+'"><img src="'+friend.image.url+'"/>'+friend.displayName+'</li>');
+          li = $('<li onclick="gRenderShare($(this).attr(\'data-id\')); $(\'.friendlist li\').removeClass(); $(this).addClass(\'selected\'); return false;" data-id="'+friend.id+'"><img src="'+friend.image.url+'"/>'+friend.displayName+'</li>');
           $('#friendlist ul').append(li);
         }, false);
       }
