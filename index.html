@@ -65,7 +65,7 @@
           </div>
 
           <div class="span6 well" id="friendlist_container" style="display:none;">
-            <h2>1. Select a friend</h2>
+            <h4>1. Select a friend (optional)</h4>
             <section>
               <div id="friendlist">
 
@@ -74,18 +74,27 @@
           </div>
 
           <div class="span6 well">
-            <h2>2. Post!</h2>
+            <h4>2. Link- & Target-URL, Prefill-Text!</h4>
             <section>
-              <button id="share-button"
-                class="g-interactivepost"
-                data-contenturl="https://dev.diesocialisten.at/google+/?v=5"
-                data-clientid="582679366292.apps.googleusercontent.com"
-                data-cookiepolicy="single_host_origin"
-                data-prefilltext="Developers, you should check this out!"
-                data-calltoactionlabel="LEARN_MORE"
-                data-calltoactionurl="https://dev.diesocialisten.at/google+">
-                Share this Tutorial!
-              </button>
+              Link URL: <input type="text" id="link-url" value="https://dev.diesocialisten.at/google+" onchange="gRenderShare();"/><br/>
+              Target URL: <input type="text" id="target-url" value="https://dev.diesocialisten.at/google+" onchange="gRenderShare();"/><br/>
+              Prefill-Text: <input type="text" id="prefill-text" value="Developers, you should check this out!" onchange="gRenderShare();"/>
+            </section>
+          </div>
+
+          <div class="span6 well">
+            <h4>3. Pick Call-to-Action!</h4>
+            <section>
+              <select id="call-to-action" onchange="gRenderShare();">
+                <option value="ACCEPT">ACCEPT</option><option value="ACCEPT">ACCEPT</option><option value="ACCEPT_GIFT">ACCEPT_GIFT</option><option value="ADD">ADD</option><option value="ADD_FRIEND">ADD_FRIEND</option><option value="ADD_ME">ADD_ME</option><option value="ADD_TO_CALENDAR">ADD_TO_CALENDAR</option><option value="ADD_TO_CART">ADD_TO_CART</option><option value="ADD_TO_FAVORITES">ADD_TO_FAVORITES</option><option value="ADD_TO_QUEUE">ADD_TO_QUEUE</option><option value="ADD_TO_WISH_LIST">ADD_TO_WISH_LIST</option><option value="ANSWER">ANSWER</option><option value="ANSWER_QUIZ">ANSWER_QUIZ</option><option value="APPLY">APPLY</option><option value="ASK">ASK</option><option value="ATTACK">ATTACK</option><option value="BEAT">BEAT</option><option value="BID">BID</option><option value="BOOK">BOOK</option><option value="BOOKMARK">BOOKMARK</option><option value="BROWSE">BROWSE</option><option value="BUY">BUY</option><option value="CAPTURE">CAPTURE</option><option value="CHALLENGE">CHALLENGE</option><option value="CHANGE">CHANGE</option><option value="CHALLENGE">CHALLENGE</option><option value="CHAT">CHAT</option><option value="CHANGE">CHANGE</option><option value="CHECKIN">CHECKIN</option><option value="COLLECT">COLLECT</option><option value="COMMENT">COMMENT</option><option value="COMPARE">COMPARE</option><option value="COMPLAIN">COMPLAIN</option><option value="CONFIRM">CONFIRM</option><option value="CONNECT">CONNECT</option><option value="CONTRIBUTE">CONTRIBUTE</option><option value="COOK">COOK</option><option value="CREATE">CREATE</option><option value="DEFEND">DEFEND</option><option value="DINE">DINE</option><option value="DISCOVER">DISCOVER</option><option value="DISCUSS">DISCUSS</option><option value="DONATE">DONATE</option><option value="DOWNLOAD">DOWNLOAD</option><option value="EARN">EARN</option><option value="EAT">EAT</option><option value="EXPLAIN">EXPLAIN</option><option value="FIND">FIND</option><option value="FIND_A_TABLE">FIND_A_TABLE</option><option value="FOLLOW">FOLLOW</option><option value="GET">GET</option><option value="GIFT">GIFT</option><option value="GIVE">GIVE</option><option value="GO">GO</option><option value="HELP">HELP</option><option value="IDENTIFY">IDENTIFY</option><option value="INSTALL">INSTALL</option><option value="INSTALL_APP">INSTALL_APP</option><option value="INTRODUCE">INTRODUCE</option><option value="INVITE">INVITE</option><option value="JOIN">JOIN</option><option value="JOIN_ME">JOIN_ME</option><option value="LEARN">LEARN</option><option value="LEARN_MORE">LEARN_MORE</option><option value="LISTEN">LISTEN</option><option value="MAKE">MAKE</option><option value="MATCH">MATCH</option><option value="MESSAGE">MESSAGE</option><option value="OPEN" selected>OPEN</option><option value="OPEN_APP">OPEN_APP</option><option value="OWN">OWN</option><option value="PAY">PAY</option><option value="PIN">PIN</option><option value="PIN_IT">PIN_IT</option><option value="PLAN">PLAN</option><option value="PLAY">PLAY</option><option value="PURCHASE">PURCHASE</option><option value="RATE">RATE</option><option value="READ">READ</option><option value="READ_MORE">READ_MORE</option><option value="RECOMMEND">RECOMMEND</option><option value="RECORD">RECORD</option><option value="REDEEM">REDEEM</option><option value="REGISTER">REGISTER</option><option value="REPLY">REPLY</option><option value="RESERVE">RESERVE</option><option value="REVIEW">REVIEW</option><option value="RSVP">RSVP</option><option value="SAVE">SAVE</option><option value="SAVE_OFFER">SAVE_OFFER</option><option value="SEE_DEMO">SEE_DEMO</option><option value="SELL">SELL</option><option value="SEND">SEND</option><option value="SIGN_IN">SIGN_IN</option><option value="SIGN_UP">SIGN_UP</option><option value="START">START</option><option value="STOP">STOP</option><option value="SUBSCRIBE">SUBSCRIBE</option><option value="TAKE_QUIZ">TAKE_QUIZ</option><option value="TAKE_TEST">TAKE_TEST</option><option value="TRY_IT">TRY_IT</option><option value="UPVOTE">UPVOTE</option><option value="USE">USE</option><option value="VIEW">VIEW</option><option value="VIEW_ITEM">VIEW_ITEM</option><option value="VIEW_MENU">VIEW_MENU</option><option value="VIEW_PROFILE">VIEW_PROFILE</option><option value="VISIT">VISIT</option><option value="VOTE">VOTE</option><option value="WANT">WANT</option><option value="WANT_TO_SEE">WANT_TO_SEE</option><option value="WANT_TO_SEE_IT">WANT_TO_SEE_IT</option><option value="WATCH">WATCH</option><option value="WATCH_TRAILER">WATCH_TRAILER</option><option value="WISH">WISH</option><option value="WRITE">WRITE"></option>
+              </select>
+            </section>
+          </div>
+
+          <div class="span6 well">
+            <h4>4. Post!</h4>
+            <section>
+              <button id="share-button" style="display:none;">Share now!</button>
             </section>
           </div>
 
@@ -98,12 +107,19 @@
   <script type="text/javascript">
   (function() {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/client:plusone.js';
+    po.src = 'https://apis.google.com/js/client:plusone.js?onload=onLoadCallback';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
 
   var gFriends = null;
+  var gShareRecipient = null;
+
+  // Startup...
+  function onLoadCallback() {
+    gRenderShare();
+  }
   
+  // Callback for Google+ Sign-In
   function signinCallback(authResult) {
 
     console.log(authResult);
@@ -133,6 +149,7 @@
 
     if (debug)
       $('#result').html('');
+
     gapi.client.request({path:'/plus/v1'+url, method:'GET', callback: function(result) {
       // Let's dump this to DOM:      
       if (debug)
@@ -140,7 +157,7 @@
       if (callback) {
         callback(result);
       }
-    }})
+    }});
   }
 
   // This function disconnects / uninstalls the app for the current user
@@ -164,19 +181,18 @@
   }
 
   // Render the share button and target it to the selected Friends
-  function gRenderShare(friend_id) {
-
+  function gRenderShare() {
+    $('#share-button').show();
     var options = {
-      contenturl: 'https://dev.diesocialisten.at/google+/?v=5',
+      contenturl: $('#link-url').val(),
       clientid: '582679366292.apps.googleusercontent.com',
       cookiepolicy: 'single_host_origin',
-      prefilltext: 'Developers, you should check this out!',
-      recipients: friend_id.toString(),
-      calltoactionlabel: 'LEARN_MORE',
-      calltoactionurl: 'https://dev.diesocialisten.at/google+/?v=5'
+      prefilltext: $('#prefill-text').val(),
+      recipients: (gShareRecipient ? gShareRecipient.toString() : null),
+      calltoactionlabel: ($('#call-to-action').val() ? $('#call-to-action').val() : null),
+      calltoactionurl: $('#target-url')
     };
     // Call the render method when appropriate within your app to display the button.
-    console.log(options);
     gapi.interactivepost.render('share-button', options);
   }
 
@@ -194,7 +210,7 @@
       if (result.items) {
         friends = friends.concat(result.items);
         $.each(result.items, function(index, friend) {
-          li = $('<li onclick="gRenderShare($(this).attr(\'data-id\')); $(\'.friendlist li\').removeClass(); $(this).addClass(\'selected\'); return false;" data-id="'+friend.id+'"><img src="'+friend.image.url+'"/>'+friend.displayName+'</li>');
+          li = $('<li onclick="gShareRecipient = $(this).attr(\'data-id\'); gRenderShare(); $(\'.friendlist li\').removeClass(); $(this).addClass(\'selected\'); return false;" data-id="'+friend.id+'"><img src="'+friend.image.url+'"/>'+friend.displayName+'</li>');
           $('#friendlist ul').append(li);
         }, false);
       }
