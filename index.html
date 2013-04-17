@@ -190,7 +190,7 @@
       prefilltext: $('#prefill-text').val(),
       recipients: (gShareRecipient ? gShareRecipient.toString() : null),
       calltoactionlabel: ($('#call-to-action').val() ? $('#call-to-action').val() : null),
-      calltoactionurl: $('#target-url')
+      calltoactionurl: $('#target-url').val()
     };
     // Call the render method when appropriate within your app to display the button.
     gapi.interactivepost.render('share-button', options);
