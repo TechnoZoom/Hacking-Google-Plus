@@ -58,3 +58,5 @@ ul.friendlist li img { 
 }
 
 input { width: 70%; }
+
+.hero-unit h1 { font-size:32px; margin: 0px 0px 0px 0px; padding:0px; }
